@@ -362,7 +362,7 @@ class PandasAI(Shortcuts):
                     df_head = data_frame.head(rows_to_display)
                     if anonymize_df:
                         df_head = anonymize_dataframe_head(df_head)
-                    if self._custom_df:
+                    if self._custom_df is not None:
                         df_head = self._custom_df
                     df_head = df_head.to_csv(index=False)
 
