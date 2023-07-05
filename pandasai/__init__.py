@@ -104,6 +104,7 @@ class PandasAI(Shortcuts):
         conversational form. Default to False
         _enforce_privacy (bool, optional): Do not display the data on prompt in case of
         Sensitive data. Default to False
+        _custom_df (pd.DataFrame, optional): Send this df as sample to llm. Only support single df. Default to None
         _max_retries (int, optional): max no. of tries to generate code on failure.
         Default to 3
         _in_notebook (bool, optional): Whether to run code in notebook. Default to False
@@ -138,6 +139,7 @@ class PandasAI(Shortcuts):
     _verbose: bool = False
     _is_conversational_answer: bool = False
     _enforce_privacy: bool = False
+    _custom_df: pd.DataFrame = None
     _max_retries: int = 3
     _in_notebook: bool = False
     _original_instructions: dict = {
@@ -174,6 +176,7 @@ class PandasAI(Shortcuts):
         custom_whitelisted_dependencies=None,
         enable_logging=True,
         non_default_prompts: Optional[Dict[str, Type[Prompt]]] = None,
+        custom_df: pd.DataFrame =  None,
     ):
         """
 
@@ -225,6 +228,7 @@ class PandasAI(Shortcuts):
         self._is_conversational_answer = conversational
         self._verbose = verbose
         self._enforce_privacy = enforce_privacy
+        self._custom_df = custom_df
         self._save_charts = save_charts
         self._save_charts_path = save_charts_path
         self._process_id = str(uuid.uuid4())
@@ -358,6 +362,8 @@ class PandasAI(Shortcuts):
                     df_head = data_frame.head(rows_to_display)
                     if anonymize_df:
                         df_head = anonymize_dataframe_head(df_head)
+                    if self._custom_df:
+                        df_head = self._custom_df
                     df_head = df_head.to_csv(index=False)
 
                     generate_code_instruction = self._non_default_prompts.get(
