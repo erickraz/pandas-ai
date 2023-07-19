@@ -423,6 +423,11 @@ class PandasAI(Shortcuts):
 
             return answer
         except Exception as exception:
+            if str(exception) == "not related":
+                return (
+                    "Unfortunately, I was not able to answer your question, "
+                    "because the data and context provided does relate to your question"
+                )
             self.last_error = str(exception)
             print(exception)
             return (

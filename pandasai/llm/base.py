@@ -106,6 +106,8 @@ class LLM:
             str: Extracted code from the response
         """
         code = response
+        if code.lower() == "not related":
+            raise NoCodeFoundError("not related")
         if len(code.split(separator)) > 1:
             code = code.split(separator)[1]
         code = self._polish_code(code)
