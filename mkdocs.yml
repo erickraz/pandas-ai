@@ -32,7 +32,7 @@ nav:
       - Documents Building: building_docs.md
       - License: license.md
 extra:
-  version: "0.6.7-beta0"
+  version: "0.6.7-beta1"
 plugins:
   - search
   - mkdocstrings:
